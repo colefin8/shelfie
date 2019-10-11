@@ -9,22 +9,48 @@ class Form extends Component {
       name: "",
       price: "",
       imgurl: "",
-      previewurl: "",
-      editId: null
+      previewimg:
+        "https://wanowi.com/public/uploads/products/list/product-default.jpg"
     };
   }
 
-  componentDidUpdate(oldProps) {
-    if (this.props.selectedItem.id !== oldProps.selectedItem.id) {
-      this.setState({ editId: this.props.selectedItem.id });
+  componentDidMount() {
+    console.log(this.state);
+    if (this.state.imgurl) {
+      this.setState({ previewimg: this.state.imgurl });
+    }
+    if (this.props.location.state) {
+      this.selectedEdit(this.props.location.state.id);
     }
   }
-  //METHODS
+
+  componentDidUpdate(oldprops) {
+    if (oldprops.location.pathname !== this.props.location.pathname) {
+      this.clearInput();
+    }
+  }
+
+  selectedEdit = id => {
+    axios
+      .get(`/api/product/${id}`)
+      .then(res => {
+        const { name, price, img } = res.data[0];
+        this.setState({
+          name,
+          price,
+          imgurl: img,
+          previewimg: img
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   editItem = () => {
     console.log(this.state);
     axios
-      .put(`/api/product/${this.state.editId}`, {
+      .put(`/api/product/${this.props.location.state.id}`, {
         name: this.state.name,
         price: this.state.price,
         imgurl: this.state.imgurl
@@ -38,25 +64,22 @@ class Form extends Component {
     // console.log(`this.state.name: ${this.state.name}`);
   };
 
-  handlePriceChange = value => {
-    const price = parseInt(value);
+  handlePriceChange = price => {
     this.setState({ price });
   };
 
   onError = () => {
     this.setState({
-      imgurl:
+      previewimg:
         "https://wanowi.com/public/uploads/products/list/product-default.jpg"
     });
   };
 
   handleImageChange = imgurl => {
     imgurl
-      ? this.setState({ imgurl, previewurl: imgurl })
+      ? this.setState({ imgurl: imgurl, previewimg: imgurl })
       : this.setState({
-          imgurl:
-            "https://wanowi.com/public/uploads/products/list/product-default.jpg",
-          previewurl:
+          previewimg:
             "https://wanowi.com/public/uploads/products/list/product-default.jpg"
         });
     // console.log(`this.state.imgurl: ${this.state.imgurl}`);
@@ -88,39 +111,58 @@ class Form extends Component {
 
   render() {
     return (
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          this.state.editId === null ? this.addToDatabase() : this.editItem();
-        }}
-      >
-        <input
-          value={this.state.input}
-          placeholder="product name"
-          onChange={e => this.handleNameChange(e.target.value)}
-        />
-        <input
-          value={this.state.price}
-          placeholder="price"
-          onChange={e => this.handlePriceChange(e.target.value)}
-        />
-        <input
-          placeholder="image url"
-          onChange={e => this.handleImageChange(e.target.value)}
-        />
-        <button type="reset">Cancel</button>
-        {this.state.editId === null ? (
-          <button type="submit">Add to Inventory</button>
-        ) : (
-          <button type="submit">Save Changes</button>
-        )}
-        <img
-          className="previewimg"
-          alt="preview"
-          src={this.state.imgurl}
-          onError={this.onError}
-        />
-      </form>
+      <div className="formDiv">
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            this.props.location.state ? this.editItem() : this.addToDatabase();
+            window.location.replace("/");
+          }}
+        >
+          <img
+            className="previewimg"
+            alt="preview"
+            src={this.state.previewimg}
+            onError={this.onError}
+          />
+          <input
+            className="formInput"
+            value={this.state.name}
+            placeholder="product name"
+            onChange={e => this.handleNameChange(e.target.value)}
+          />
+          <input
+            className="formInput"
+            value={this.state.price}
+            placeholder="price"
+            onChange={e => this.handlePriceChange(e.target.value)}
+          />
+          <input
+            className="formInput"
+            value={this.state.imgurl}
+            placeholder="image url"
+            onChange={e => this.handleImageChange(e.target.value)}
+          />
+          <div className="formButtonDiv">
+            <button
+              className="formButton"
+              type="button"
+              onClick={() => this.clearInput()}
+            >
+              Clear
+            </button>
+            {!this.props.location.state ? (
+              <button className="formButton" type="submit">
+                Add to Inventory
+              </button>
+            ) : (
+              <button className="formButton" type="submit">
+                Save Changes
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
     );
   }
 }

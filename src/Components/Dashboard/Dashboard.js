@@ -3,31 +3,49 @@ import Product from "../Product/Product";
 import "./Dashboard.css";
 import axios from "axios";
 
-function Dashboard(props) {
+class Dashboard extends React.Component {
+  constructor() {
+    super();
+    this.state = { inventory: [] };
+  }
+
+  componentDidMount() {
+    this.getInventory();
+  }
+
   //METHODS
 
-  function deleteProduct(id) {
+  getInventory = () => {
+    axios
+      .get("/api/inventory")
+      .then(res => this.setState({ inventory: res.data }))
+      .catch(err => console.log(err));
+  };
+
+  deleteProduct = id => {
     axios
       .delete(`/api/product/${id}`)
       .then(() => {
-        props.getInventory();
+        this.getInventory();
       })
       .catch(err => console.log(err));
+  };
+  render() {
+    return (
+      <ul className="dashboardList">
+        {this.state.inventory.map((e, i) => {
+          return (
+            <Product
+              selectItem={this.props.selectItem}
+              deleteProduct={this.deleteProduct}
+              key={i}
+              item={e}
+            />
+          );
+        })}
+      </ul>
+    );
   }
-  return (
-    <ul>
-      {props.inventory.map((e, i) => {
-        return (
-          <Product
-            selectItem={props.selectItem}
-            deleteProduct={deleteProduct}
-            key={i}
-            item={e}
-          />
-        );
-      })}
-    </ul>
-  );
 }
 
 export default Dashboard;

@@ -5,6 +5,13 @@ module.exports = {
       .then(products => res.status(200).send(products))
       .catch(err => console.log(err));
   },
+  getProduct: (req, res) => {
+    const db = req.app.get("db"),
+      { id } = req.params;
+    db.get_product(id)
+      .then(product => res.status(200).send(product))
+      .catch(err => console.log(err));
+  },
   addProduct: (req, res) => {
     const db = req.app.get("db"),
       { name, price, imgurl } = req.body;

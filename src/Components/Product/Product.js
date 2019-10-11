@@ -1,16 +1,39 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import "./Product.css";
 
 function Product(props) {
   return (
-    <div className="product">
-      <li key={props.i}>
-        <img alt="product" className="itemimg" src={props.item.img} />
-        <h2>{props.item.name}</h2>
-        <h3>{props.item.price}</h3>
-      </li>
-      <button onClick={() => props.deleteProduct(props.item.id)}>Delete</button>
-      <button onClick={() => props.selectItem(props.item)}>Edit</button>
-    </div>
+    <li className="product" key={props.i}>
+      <img alt="product" className="itemimg" src={props.item.img} />
+      <div className="rightSide">
+        <div>
+          <p className="text">{props.item.name}</p>
+          <p className="text">{`$${props.item.price}`}</p>
+        </div>
+        <div className="buttons">
+          <button
+            className="productButton"
+            onClick={() => props.deleteProduct(props.item.id)}
+          >
+            Delete
+          </button>
+          <button className="productButton">
+            <Link
+              className="link"
+              to={{
+                pathname: `/edit/${props.item.id}`,
+                state: {
+                  id: props.item.id
+                }
+              }}
+            >
+              Edit
+            </Link>
+          </button>
+        </div>
+      </div>
+    </li>
   );
 }
 

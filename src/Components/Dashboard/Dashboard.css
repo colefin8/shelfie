@@ -1,4 +1,14 @@
-.itemimg {
-  width: 150px;
-  height: 150px;
+/* ab2a19 dark red
+d34735 red
+ed6b5a light red
+3ad886 green 
+font-family: 'Open Sans', sans-serif;
+*/
+
+.dashboardList {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
 }

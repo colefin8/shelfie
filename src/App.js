@@ -3,48 +3,19 @@ import "./App.css";
 import Header from "./Components/Header/Header";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Form from "./Components/Form/Form";
-import axios from "axios";
+import { Switch, Route } from "react-router-dom";
 
-class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      inventory: [],
-      selectedItem: {}
-    };
-  }
-
-  componentDidMount() {
-    this.getInventory();
-  }
-
-  selectItem = selectedItem => {
-    this.setState({ selectedItem });
-  };
-
-  getInventory = () => {
-    axios
-      .get("/api/inventory")
-      .then(res => this.setState({ inventory: res.data }))
-      .catch(err => console.log(err));
-  };
-
-  render() {
-    return (
-      <div className="App">
-        <Header />
-        <Dashboard
-          selectItem={this.selectItem}
-          getInventory={this.getInventory}
-          inventory={this.state.inventory}
-        />
-        <Form
-          getInventory={this.getInventory}
-          selectedItem={this.state.selectedItem}
-        />
-      </div>
-    );
-  }
+function App() {
+  return (
+    <div className="App">
+      <Header />
+      <Switch>
+        <Route component={Dashboard} exact path="/" />
+        <Route component={Form} path="/add" />
+        <Route component={Form} path="/edit/:id" />
+      </Switch>
+    </div>
+  );
 }
 
 export default App;
