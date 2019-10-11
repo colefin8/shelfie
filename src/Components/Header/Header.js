@@ -6,10 +6,11 @@ import shelfie_icon from "../../icons/shelfie_icon.png";
 function Header() {
   return (
     <nav>
-      <div className="iconTitle">
+      <Link className="link iconTitle" to="/">
         <img src={shelfie_icon} />
         <span className="title">SHELFIE</span>
-      </div>
+      </Link>
+
       <button className="headerButton">
         <Link className="link" to="/">
           Dashboard

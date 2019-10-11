@@ -3,18 +3,19 @@ import { Link } from "react-router-dom";
 import "./Product.css";
 
 function Product(props) {
+  const { img, name, price, id } = props.item;
   return (
     <li className="product" key={props.i}>
-      <img alt="product" className="itemimg" src={props.item.img} />
+      <img alt="product" className="itemimg" src={img} />
       <div className="rightSide">
         <div>
-          <p className="text">{props.item.name}</p>
-          <p className="text">{`$${props.item.price}`}</p>
+          <p className="text">{name}</p>
+          <p className="text">{`$${price}`}</p>
         </div>
         <div className="buttons">
           <button
             className="productButton"
-            onClick={() => props.deleteProduct(props.item.id)}
+            onClick={() => props.deleteProduct(id)}
           >
             Delete
           </button>
@@ -22,9 +23,9 @@ function Product(props) {
             <Link
               className="link"
               to={{
-                pathname: `/edit/${props.item.id}`,
+                pathname: `/edit/${id}`,
                 state: {
-                  id: props.item.id
+                  id: id
                 }
               }}
             >

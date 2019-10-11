@@ -131,16 +131,17 @@ class Form extends Component {
             placeholder="product name"
             onChange={e => this.handleNameChange(e.target.value)}
           />
+
           <input
             className="formInput"
             value={this.state.price}
-            placeholder="price"
+            placeholder="price, full dollar amount only"
             onChange={e => this.handlePriceChange(e.target.value)}
           />
           <input
             className="formInput"
             value={this.state.imgurl}
-            placeholder="image url"
+            placeholder="copy and paste image url here"
             onChange={e => this.handleImageChange(e.target.value)}
           />
           <div className="formButtonDiv">
