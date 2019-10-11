@@ -44,6 +44,12 @@ form {
   margin: 0 5px;
 }
 
+.formButton:hover {
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  cursor: pointer;
+}
+
 .formInput {
   width: 90%;
   font-size: 18px;

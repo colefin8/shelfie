@@ -28,6 +28,12 @@ font-family: 'Open Sans', sans-serif;
   height: 30px;
 }
 
+.productButton:hover {
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  cursor: pointer;
+}
+
 .link {
   text-decoration: none;
   color: black;
@@ -36,7 +42,7 @@ font-family: 'Open Sans', sans-serif;
 .product {
   height: 175px;
   padding: 15px;
-  width: 30%;
+  width: 32%;
   margin: 10px;
   list-style: none;
   background-color: #d34735;

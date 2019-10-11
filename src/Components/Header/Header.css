@@ -6,6 +6,7 @@ font-family: 'Open Sans', sans-serif;
 */
 
 nav {
+  position: sticky;
   background-color: #ab2a19;
   display: flex;
   justify-content: flex-start;
@@ -25,6 +26,9 @@ img {
   margin: 0 40px;
 }
 
+.iconTitle:hover {
+  font-weight: bolder;
+}
 .title {
   margin-left: 20px;
   font-size: 20px;
@@ -38,6 +42,12 @@ img {
   border-radius: 2px;
   height: 20px;
   margin: 0 5px;
+}
+
+.headerButton:hover {
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  cursor: pointer;
 }
 
 .link {

@@ -97,6 +97,8 @@ class Form extends Component {
       name: this.state.name,
       price: this.state.price,
       imgurl: this.state.imgurl
+        ? this.state.imgurl
+        : "https://wanowi.com/public/uploads/products/list/product-default.jpg"
     };
     console.log(newProduct);
 
