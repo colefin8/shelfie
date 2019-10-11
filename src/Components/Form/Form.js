@@ -30,6 +30,13 @@ class Form extends Component {
     }
   }
 
+  getInventory = () => {
+    axios
+      .get("/api/inventory")
+      .then(res => this.setState({ inventory: res.data }))
+      .catch(err => console.log(err));
+  };
+
   selectedEdit = id => {
     axios
       .get(`/api/product/${id}`)
@@ -55,7 +62,7 @@ class Form extends Component {
         price: this.state.price,
         imgurl: this.state.imgurl
       })
-      .then(this.props.getInventory())
+      .then(this.getInventory())
       .catch(err => console.log(err));
   };
 
